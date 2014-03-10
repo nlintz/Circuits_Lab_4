@@ -115,17 +115,17 @@ function Graphs
 
 %     % Experiment 2
     figure(4);
-    Iz_Characteristic([Ix_Sink_R1_exp2' Ix_Sink_R2_exp2' Ix_Sink_R3_exp2'], [Iz_Sink_R1_exp2' Iz_Sink_R2_exp2' Iz_Sink_R3_exp2']);
+    Iz_Characteristic([Ix_Sink_R1_exp2' Ix_Sink_R2_exp2' Ix_Sink_R3_exp2'], -1*[Iz_Sink_R1_exp2' Iz_Sink_R2_exp2' Iz_Sink_R3_exp2']);
     
     figure(5);
-    Iz_Characteristic([Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], [Iz_Source_R1_exp2' Iz_Source_R2_exp2' Iz_Source_R3_exp2']);
+    Iz_Characteristic(-1.*[Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], -1.*[Iz_Source_R1_exp2' Iz_Source_R2_exp2' Iz_Source_R3_exp2']);
 
 %     % Experiment 3
     figure(6);
-    Iz_Characteristic([Ix_Sink_R1_exp3' Ix_Sink_R2_exp3' Ix_Sink_R3_exp3'], [Iz_Sink_R1_exp3' Iz_Sink_R2_exp3' Iz_Sink_R3_exp3']);
+    Iz_Characteristic([Ix_Sink_R1_exp3' Ix_Sink_R2_exp3' Ix_Sink_R3_exp3'], -1.*[Iz_Sink_R1_exp3' Iz_Sink_R2_exp3' Iz_Sink_R3_exp3']);
 
     figure(7);
-    Iz_Characteristic([Iy_Source_R1_exp3' Iy_Source_R2_exp3' Iy_Source_R3_exp3'], [Iz_Source_R1_exp3' Iz_Source_R2_exp3' Iz_Source_R3_exp3']);
+    Iz_Characteristic(-1.*[Iy_Source_R1_exp3' Iy_Source_R2_exp3' Iy_Source_R3_exp3'], -1.*[Iz_Source_R1_exp3' Iz_Source_R2_exp3' Iz_Source_R3_exp3']);
 end
 
 function res = Beta(Ib, Ie)
@@ -147,7 +147,7 @@ function IV_Characteristic_Exp1(Ib, Ie, Vb)
     semilogy(Vb, max(Ib, 10^-10), '.');
     axis([0 .7 10e-12 10e-1]);
 
-%     TODO - Add theoretical fits, labels, titles, legends
+%     TODO - Add labels, titles, legends
 end
 
 function Collector_Current_Deviation_Exp1(Ib, Ie, Vb)
