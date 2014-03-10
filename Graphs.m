@@ -102,9 +102,20 @@ function Graphs
 
     % Experiment 1
     sprintf('T1 Beta: %f, T2 Beta: %f, T3 Beta: %f, T4 Beta: %f', mean(Beta(Ib_T1_exp1, Ie_T1_exp1)), mean(Beta(Ib_T2_exp1, Ie_T2_exp1)), mean(Beta(Ib_T3_exp1, Ie_T3_exp1)), mean(Beta(Ib_T4_exp1, Ie_T4_exp1)))
-    sprintf('T1 ISat: %f, T2 ISat: %f, T3 ISat: %f, T4 ISat: %f', mean(ISat(Ib_T1_exp1, Ie_T1_exp1, Vb_T1_exp1)), mean(ISat(Ib_T2_exp1, Ie_T2_exp1, Vb_T2_exp1)), mean(ISat(Ib_T3_exp1, Ie_T3_exp1, Vb_T3_exp1)), mean(ISat(Ib_T4_exp1, Ie_T4_exp1, Vb_T4_exp1)))
 
-    figure(1);
+%     figure(1)
+%     hold on
+    'T1 Isat:'
+    ISat(Vb_T1_exp1(50:100), (Ie_T1_exp1(50:100)-Ib_T1_exp1(50:100)), Vb_T1_exp1)
+    'T2 Isat:'
+    ISat(Vb_T2_exp1(50:100), (Ie_T2_exp1(50:100)-Ib_T2_exp1(50:100)), Vb_T2_exp1)
+    'T3 Isat:'
+    ISat(Vb_T3_exp1(50:100), (Ie_T3_exp1(50:100)-Ib_T3_exp1(50:100)), Vb_T3_exp1)
+    'T4 Isat:'
+    ISat(Vb_T4_exp1(50:100), (Ie_T4_exp1(50:100)-Ib_T4_exp1(50:100)), Vb_T4_exp1)
+
+    
+    figure(1)
     IV_Characteristic_Exp1([Ib_T1_exp1' Ib_T2_exp1' Ib_T3_exp1' Ib_T4_exp1'], [Ie_T1_exp1' Ie_T2_exp1' Ie_T3_exp1' Ie_T4_exp1'], [Vb_T1_exp1' Vb_T2_exp1' Vb_T3_exp1' Vb_T4_exp1']);
     
     figure(2);
@@ -112,20 +123,28 @@ function Graphs
     
     figure(3);
     Beta_Characteristic_Exp1([Ib_T1_exp1' Ib_T2_exp1' Ib_T3_exp1' Ib_T4_exp1'], [Ie_T1_exp1' Ie_T2_exp1' Ie_T3_exp1' Ie_T4_exp1'], [Vb_T1_exp1' Vb_T2_exp1' Vb_T3_exp1' Vb_T4_exp1']);
-
+% 
 %     % Experiment 2
     figure(4);
     Iz_Characteristic([Ix_Sink_R1_exp2' Ix_Sink_R2_exp2' Ix_Sink_R3_exp2'], -1*[Iz_Sink_R1_exp2' Iz_Sink_R2_exp2' Iz_Sink_R3_exp2']);
+    hold on;
+    Sqrt_TheoreticalFit_Sink([Ix_Sink_R1_exp2' Ix_Sink_R2_exp2' Ix_Sink_R3_exp2'], [51e3, 4.53e3, 499e3]);
     
     figure(5);
     Iz_Characteristic(-1.*[Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], -1.*[Iz_Source_R1_exp2' Iz_Source_R2_exp2' Iz_Source_R3_exp2']);
-
+    hold on
+    Sqrt_TheoreticalFit_Source([Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], [4.53e3, 51e3, 499e3]);
+    
 %     % Experiment 3
     figure(6);
     Iz_Characteristic([Ix_Sink_R1_exp3' Ix_Sink_R2_exp3' Ix_Sink_R3_exp3'], -1.*[Iz_Sink_R1_exp3' Iz_Sink_R2_exp3' Iz_Sink_R3_exp3']);
+    hold on
+    Squared_TheoreticalFit_Sink([Ix_Sink_R1_exp3' Ix_Sink_R2_exp3' Ix_Sink_R3_exp3'], [51e3, 4.53e3, 499e3]);
 
     figure(7);
     Iz_Characteristic(-1.*[Iy_Source_R1_exp3' Iy_Source_R2_exp3' Iy_Source_R3_exp3'], -1.*[Iz_Source_R1_exp3' Iz_Source_R2_exp3' Iz_Source_R3_exp3']);
+    hold on;
+    Inverse_TheoreticalFit_Source([Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], [51e3, 4.53e3, 499e3]);
 end
 
 function res = Beta(Ib, Ie)
@@ -133,11 +152,10 @@ function res = Beta(Ib, Ie)
     beta = Ic./Ib;
     res = beta;
 end
-
-function res = ISat(Ib, Ie, Vb)
-    Ic = Ie - Ib;
-    Ut = .025;
-    res = Ic./exp(Vb./Ut);
+    
+function res = ISat(x_sample, y_sample, input) %Are we in fwd active?
+    fit = polyfit(x_sample, log(y_sample), 1);
+    res = exp(real(fit(2)));
 end
 
 function IV_Characteristic_Exp1(Ib, Ie, Vb)
@@ -156,6 +174,7 @@ function Collector_Current_Deviation_Exp1(Ib, Ie, Vb)
     for i=1:4
         Ic_mean = Ic_mean + Ic(:, i);
     end
+    Ic_mean = Ic_mean./4;
     Ic_Percentage_Diff = [(Ic(:,1)-Ic_mean)./Ic_mean (Ic(:,2)-Ic_mean)./Ic_mean (Ic(:,3)-Ic_mean)./Ic_mean (Ic(:,4)-Ic_mean)./Ic_mean];
     plot(Vb, Ic_Percentage_Diff, '.');
     axis([0 .7 -20 35 ]);
@@ -166,9 +185,45 @@ function Beta_Characteristic_Exp1(Ib, Ie, Vb)
     Ic = Ib - Ie;
     beta_vals = Beta(Ib, Ie);
     semilogy(Ic, beta_vals, '.');
-    axis([ -2e-9 6e-7 .02 1e5]);
+  % Compare against http://www.analog.com/static/imported-files/data_sheets/MAT14.pdf
+%     axis([ -2e-9 6e-7 .02 1e5]);
 end
 
 function Iz_Characteristic(I, Iz)
     loglog(I, Iz, '.');
+%     TODO - Add labels, titles, legends
+end
+
+function Sqrt_TheoreticalFit_Sink(Ix, R)
+Vy = .2;
+Iy = Vy./R;
+Iz = [(Iy(:,1).*Ix(:,1)).^.5 (Iy(:,2).*Ix(:,2)).^.5 (Iy(:,3).*Ix(:,3)).^.5];
+loglog(Ix, Iz);
+%     TODO - Add labels, titles, legends
+
+end
+
+function Sqrt_TheoreticalFit_Source(Iy, R)
+Vx = 2.5;
+Ix = Vx./R;
+Iz = [(abs(Ix(:,1).*Iy(:,1))).^.5 abs((Ix(:,2).*Iy(:,2))).^.5 abs((Ix(:,3).*Iy(:,3))).^.5];
+loglog(-1.*Iy, Iz);
+%     TODO - Add labels, titles, legends
+end
+
+function Squared_TheoreticalFit_Sink(Ix, R)
+Vy = .2;
+Iy = Vy./R;
+Iz = [(Ix(:,1)).^2./(Iy(:,1)) (Ix(:,2)).^2./(Iy(:, 2)) (Ix(:,3)).^2./(Iy(:, 3))];
+loglog(Ix, Iz);
+%     TODO - Add labels, titles, legends
+end
+
+function Inverse_TheoreticalFit_Source(Iy, R)
+Vx = 2.5;
+Ix = Vx./R;
+Iz = [(Ix(:,1)).^2./(Iy(:,1)) (Ix(:,2)).^2./(Iy(:, 2)) (Ix(:,3)).^2./(Iy(:, 3))];
+loglog(-1.*Iy, -1.*Iz);
+%     TODO - Add labels, titles, legends
+
 end
