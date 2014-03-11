@@ -118,65 +118,40 @@ function Graphs
     figure(1)
     IV_Characteristic_Exp1([Ib_T1_exp1' Ib_T2_exp1' Ib_T3_exp1' Ib_T4_exp1'], [Ie_T1_exp1' Ie_T2_exp1' Ie_T3_exp1' Ie_T4_exp1'], [Vb_T1_exp1' Vb_T2_exp1' Vb_T3_exp1' Vb_T4_exp1']);
     title('Collector/Base Current-Voltage Characteristic');
-    xlabel('Voltage (Volts)');
-    ylabel('Current (Amperes)');
-    legend('Q_{1}', 'Q_{2}', 'Q_{3}', 'Q_{4}')
     
     figure(2);
     Collector_Current_Deviation_Exp1([Ib_T1_exp1' Ib_T2_exp1' Ib_T3_exp1' Ib_T4_exp1'], [Ie_T1_exp1' Ie_T2_exp1' Ie_T3_exp1' Ie_T4_exp1'], [Vb_T1_exp1' Vb_T2_exp1' Vb_T3_exp1' Vb_T4_exp1']);
     title('Collector Current Percentage Difference From Mean');
-    xlabel('Voltage (Volts)');
-    ylabel('Fractional Difference From Mean');
-    legend('Q_{1}', 'Q_{2}', 'Q_{3}', 'Q_{4}');
-    axis([0 .7 -15 10]);
-
+    
     figure(3);
     Beta_Characteristic_Exp1([Ib_T1_exp1' Ib_T2_exp1' Ib_T3_exp1' Ib_T4_exp1'], [Ie_T1_exp1' Ie_T2_exp1' Ie_T3_exp1' Ie_T4_exp1'], [Vb_T1_exp1' Vb_T2_exp1' Vb_T3_exp1' Vb_T4_exp1']);
     title('Current Gain');
-    xlabel('Voltage (Volts)');
-    ylabel('Current Gain');
-    legend('Q_{1}', 'Q_{2}', 'Q_{3}', 'Q_{4}')
-    axis([-1e-7 7e-7 .04 1e5]);
 
     % Experiment 2
     figure(4);
     Iz_Characteristic([Ix_Sink_R1_exp2' Ix_Sink_R2_exp2' Ix_Sink_R3_exp2'], -1*[Iz_Sink_R1_exp2' Iz_Sink_R2_exp2' Iz_Sink_R3_exp2']);
     hold on;
     Sqrt_TheoreticalFit_Sink([Ix_Sink_R1_exp2' Ix_Sink_R2_exp2' Ix_Sink_R3_exp2'], [51e3, 4.53e3, 499e3]);
-    title('Translinear Circuit 1 - Output Current (Sink)');
-    xlabel('I_{x} (Amperes)');
-    ylabel('I_{z} (Amperes)');
-    legend('I_{y} = 4.4150e-05 (Amps)', 'I_{y} = 3.9216e-06 (Amps)', 'I_{y} = 4.0080e-07 (Amps)', 'Theoretical Fit: I_{y} = 4.4150e-05 (Amps)', 'Theoretical Fit: I_{y} = 3.9216e-06 (Amps)', 'Theoretical Fit: I_{y} = 4.0080e-07 (Amps)');
-
+    title('Sink: ');
+    
     figure(5);
     Iz_Characteristic(-1.*[Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], -1.*[Iz_Source_R1_exp2' Iz_Source_R2_exp2' Iz_Source_R3_exp2']);
     hold on
     Sqrt_TheoreticalFit_Source([Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], [4.53e3, 51e3, 499e3]);
-    axis([1e-8 1e-2 1e-7 1e-2])
-    title('Translinear Circuit 1 - Output Current (Source)');
-    xlabel('I_{y} (Amperes)');
-    ylabel('I_{z} (Amperes)');
-    legend('I_{x} = 5.5188e-04 (Amps)', 'I_{x} = 4.9020e-05 (Amps)', 'I_{x} = 5.0100e-06 (Amps)', 'Theoretical Fit: I_{x} = 5.5188e-04 (Amps)', 'Theoretical Fit: I_{x} = 4.9020e-05 (Amps)', 'Theoretical Fit:  I_{x} = 5.0100e-06 (Amps)');
-
+    title('Source: ');
+    
 %     % Experiment 3
     figure(6);
     Iz_Characteristic([Ix_Sink_R1_exp3' Ix_Sink_R2_exp3' Ix_Sink_R3_exp3'], -1.*[Iz_Sink_R1_exp3' Iz_Sink_R2_exp3' Iz_Sink_R3_exp3']);
     hold on
     Squared_TheoreticalFit_Sink([Ix_Sink_R1_exp3' Ix_Sink_R2_exp3' Ix_Sink_R3_exp3'], [51e3, 4.53e3, 499e3]);
-    title('Translinear Circuit 2 - Output Current (Sink)');
-    xlabel('I_{x} (Amperes)');
-    ylabel('I_{z} (Amperes)');
-    legend('I_{y} = 4.4150e-05 (Amps)', 'I_{y} = 3.9216e-06 (Amps)', 'I_{y} = 4.0080e-07 (Amps)', 'Theoretical Fit: I_{y} = 4.4150e-05 (Amps)', 'Theoretical Fit: I_{y} = 3.9216e-06 (Amps)', 'Theoretical Fit: I_{y} = 4.0080e-07 (Amps)');
-
+    title();
+    
     figure(7);
     Iz_Characteristic(-1.*[Iy_Source_R1_exp3' Iy_Source_R2_exp3' Iy_Source_R3_exp3'], -1.*[Iz_Source_R1_exp3' Iz_Source_R2_exp3' Iz_Source_R3_exp3']);
     hold on;
     Inverse_TheoreticalFit_Source([Iy_Source_R1_exp2' Iy_Source_R2_exp2' Iy_Source_R3_exp2'], [51e3, 4.53e3, 499e3]);
-    title('Translinear Circuit 2 - Output Current (Source)');
-    xlabel('I_{y} (Amperes)');
-    ylabel('I_{z} (Amperes)');
-    legend('I_{x} = 5.5188e-04 (Amps)', 'I_{x} = 4.9020e-05 (Amps)', 'I_{x} = 5.0100e-06 (Amps)', 'Theoretical Fit: I_{x} = 5.5188e-04 (Amps)', 'Theoretical Fit: I_{x} = 4.9020e-05 (Amps)', 'Theoretical Fit:  I_{x} = 5.0100e-06 (Amps)');
-
+    title();
 end
 
 function res = Beta(Ib, Ie)
